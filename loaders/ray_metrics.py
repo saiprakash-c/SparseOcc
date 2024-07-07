@@ -117,7 +117,7 @@ def process_one_sample(sem_pred, lidar_rays, output_origin, instance_pred=None, 
             lidar_tindex[0].cpu().numpy(),
             pred_dist[0].cpu().numpy()
         )
-        coord_index = coord_index[0, :, :].int().cpu()  # [N, 3]
+        coord_index = coord_index[0, :, :].to(torch.int64).cpu()  # [N, 3]
 
         pred_label = sem_pred[coord_index[:, 0], coord_index[:, 1], coord_index[:, 2]][:, None]  # [N, 1]        
         pred_dist = pred_dist[0, :, None].cpu()
