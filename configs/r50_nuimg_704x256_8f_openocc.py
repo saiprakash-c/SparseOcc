@@ -73,3 +73,6 @@ data = dict(
         occ_gt_root=occ_gt_root
     ),
 )
+
+load_from = 'checkpoints/sparseocc_r50_nuimg_704x256_8f_24e_v1.1.pth'
+revise_keys = [('img_img_backbone', 'img_backbone')]
