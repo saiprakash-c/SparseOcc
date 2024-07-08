@@ -15,6 +15,7 @@ from mmdet.core import DistEvalHook, EvalHook
 from mmdet3d.datasets import build_dataset
 from mmdet3d.models import build_model
 from loaders.builder import build_dataloader
+# import pdb
 
 
 def main():
@@ -136,6 +137,13 @@ def main():
     logging.info('Creating optimizer: %s' % cfgs.optimizer.type)
     optimizer = build_optimizer(model, cfgs.optimizer)
 
+     # freeze layers except pts_bbox_head.transformer.voxel_decoder.seg_pred_heads and pts_bbox_head.transformer.decoder.decoder_layer.classifier
+    for name, param in model.named_parameters():
+        if 'pts_bbox_head.transformer.voxel_decoder.seg_pred_heads' in name or 'pts_bbox_head.transformer.decoder.decoder_layer.classifier' in name:
+            param.requires_grad = True
+        else:
+            param.requires_grad = False
+
     runner = EpochBasedRunner(
         model,
         optimizer=optimizer,
@@ -173,7 +181,7 @@ def main():
             load_checkpoint(
                 model, cfgs.load_from, map_location='cpu',
             )
-
+    # pdb.set_trace()
     runner.run([train_loader], [('train', 1)])
 
 

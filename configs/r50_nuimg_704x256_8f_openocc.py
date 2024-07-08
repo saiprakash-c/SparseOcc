@@ -25,6 +25,12 @@ model = dict(
             loss_mask2former=dict(
                 num_classes=len(occ_class_names)
             ),
+            loss_geo_scal=dict(
+                num_classes=len(occ_class_names)
+            ),
+            loss_sem_scal=dict(
+                num_classes=len(occ_class_names)
+            )
         ),
     ),
 )
