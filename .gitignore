@@ -47,7 +47,6 @@ data
 outputs
 prediction
 submission
-checkpoints
 pretrain
 ckpts
 occ_result
