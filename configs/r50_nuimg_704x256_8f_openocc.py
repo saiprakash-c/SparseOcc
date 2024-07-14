@@ -80,5 +80,5 @@ data = dict(
     ),
 )
 
-load_from = 'checkpoints/sparseocc_r50_nuimg_704x256_8f_24e_v1.1.pth'
-revise_keys = [('img_img_backbone', 'img_backbone')]
+load_from = 'checkpoints/sparseocc_r50_nuimg_704x256_8f_1e_finetune.pth'
+revise_keys = None

@@ -7,7 +7,7 @@ from mmcv.runner import force_fp32, auto_fp16
 from mmdet.models import DETECTORS
 from mmdet3d.models.detectors.mvx_two_stage import MVXTwoStageDetector
 from .utils import pad_multiple, GpuPhotoMetricDistortion
-
+# import pdb
 
 @DETECTORS.register_module()
 class SparseOcc(MVXTwoStageDetector):
@@ -117,6 +117,7 @@ class SparseOcc(MVXTwoStageDetector):
         return self.pts_bbox_head.loss(*loss_inputs)
 
     def forward(self, return_loss=True, **kwargs):
+        # pdb.set_trace()
         if return_loss:
             return self.forward_train(**kwargs)
         else:

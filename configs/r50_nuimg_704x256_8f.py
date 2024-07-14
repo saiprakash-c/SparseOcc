@@ -182,10 +182,10 @@ data = dict(
 
 optimizer = dict(
     type='AdamW',
-    lr=5e-4,
+    lr=5e-5,
     paramwise_cfg=dict(
         custom_keys={
-            'img_backbone': dict(lr_mult=0.1),
+            #'img_backbone': dict(lr_mult=0.1),
             'sampling_offset': dict(lr_mult=0.1),
         }),
     weight_decay=0.01
@@ -202,7 +202,7 @@ lr_config = dict(
     gamma=0.2
 )
 total_epochs = 24
-batch_size = 8
+batch_size = 2
 
 # load pretrained weights
 # load_from = 'pretrain/cascade_mask_rcnn_r50_fpn_coco-20e_20e_nuim_20201009_124951-40963960.pth'
