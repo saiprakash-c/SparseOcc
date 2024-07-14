@@ -43,9 +43,12 @@ RUN pip install pillow-simd==9.0.0.post1
 # RUN python setup.py build_ext --inplace
 
 # Install MMDetection3D
-RUN conda clean --all
-RUN git clone https://github.com/open-mmlab/mmdetection3d.git -b v1.0.0rc6 /mmdetection3d
-WORKDIR /mmdetection3d
-RUN sed -i 's/numba==0.53.0/numba==0.55.0/' requirements/runtime.txt
-RUN pip install -r requirements/build.txt
-RUN pip install --no-cache-dir -e .
+# RUN conda clean --all
+# RUN git clone https://github.com/open-mmlab/mmdetection3d.git -b v1.0.0rc6 /mmdetection3d
+# WORKDIR /mmdetection3d
+# RUN sed -i 's/numba==0.53.0/numba==0.55.0/' requirements/runtime.txt
+# RUN pip install -r requirements/build.txt
+# RUN pip install --no-cache-dir -e .
+RUN pip install DCNv4
+RUN pip install timm==0.6.11
+RUN pip install opencv-python termcolor yacs pyyaml scipy

@@ -15,8 +15,6 @@ from mmdet.core import DistEvalHook, EvalHook
 from mmdet3d.datasets import build_dataset
 from mmdet3d.models import build_model
 from loaders.builder import build_dataloader
-# import pdb
-
 
 def main():
     parser = argparse.ArgumentParser(description='Train a detector')
