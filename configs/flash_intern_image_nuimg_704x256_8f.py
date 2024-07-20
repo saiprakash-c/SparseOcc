@@ -43,7 +43,7 @@ _num_queries_ = 100
 _topk_training_ = [4000, 16000, 64000]
 _topk_testing_ = [2000, 8000, 32000]
 
-pretrained = 'https://huggingface.co/OpenGVLab/DCNv4/resolve/main/flash_intern_image_t_1k_224.pth'
+pretrained = 'https://huggingface.co/OpenGVLab/DCNv4/resolve/main/flash_intern_image_l_22k_384.pth'
 model = dict(
     type='SparseOcc',
     data_aug=dict(
@@ -52,30 +52,31 @@ model = dict(
         img_pad_cfg=dict(size_divisor=32)),
     use_mask_camera=False,
     img_backbone=dict(
-        _delete_=True,
         type='FlashInternImage',
         core_op='DCNv4',
-        channels=64,
-        depths=[4, 4, 18, 4],
-        groups=[4, 8, 16, 32],
-        im2col_step=48,
+        channels=160,
+        depths=[5, 5, 22, 5],
+        groups=[10, 20, 40, 80],
         mlp_ratio=4.,
-        drop_path_rate=0.2,
+        drop_path_rate=0.4,
         norm_layer='LN',
         layer_scale=1.0,
-        offset_scale=1.0,
-        post_norm=False,
+        offset_scale=2.0,
+        post_norm=True,
         with_cp=True,
-        out_indices=(0, 1, 2, 3),
+        dcn_output_bias=True,
+        mlp_fc2_bias=True,
+        dw_kernel_size=3,
+        out_indices=(1, 2, 3),
         init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
-    # We leverage the FPN implemented in ViTDet for stable training,
-    # and we don't benefit from this FPN in terms of performance.
     img_neck=dict(
-        type='FPN_vitdet', 
-        in_channels=[64, 128, 256, 512],
+        type='ChannelMapper',
+        in_channels=[320, 640, 1280],
+        kernel_size=1,
         out_channels=256,
-        norm_cfg=dict(type='LN', requires_grad=True),
-        use_residual=True,
+        act_cfg=None,
+        # norm_cfg=norm_cfg,
+        norm_cfg=dict(type='GN', num_groups=32),
         num_outs=4),
     pts_bbox_head=dict(
         type='SparseOccHead',
@@ -164,7 +165,7 @@ data = dict(
         type=dataset_type,
         data_root=dataset_root,
         occ_gt_root=occ_gt_root,
-        ann_file=dataset_root + 'nuscenes_infos_val_sweep.pkl',
+        ann_file=dataset_root + 'nuscenes_infos_train_sweep.pkl',
         pipeline=train_pipeline,
         classes=det_class_names,
         modality=input_modality,
@@ -214,7 +215,7 @@ lr_config = dict(
     gamma=0.2
 )
 total_epochs = 24
-batch_size = 1
+batch_size = 4
 
 # load pretrained weights
 # load_from = 'pretrain/cascade_mask_rcnn_r50_fpn_coco-20e_20e_nuim_20201009_124951-40963960.pth'
