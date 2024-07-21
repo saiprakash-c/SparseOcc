@@ -128,7 +128,7 @@ def main():
     logging.info('Batch size per GPU: %d' % (cfgs.batch_size // world_size))
 
     if world_size > 1:
-        model = MMDistributedDataParallel(model, [local_rank], broadcast_buffers=False)
+        model = MMDistributedDataParallel(model, [local_rank], broadcast_buffers=False, find_unused_parameters=True)
     else:
         model = MMDataParallel(model, [0])
 
